@@ -2,7 +2,7 @@
 
 The files in this repository were used to configure the network depicted below.
 
-![Network Diagram](images/Unit13_N_wDiagram.png)
+![Network Diagram](Images/NWDIG.png)
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the yml file may be used to install only certain pieces of it, such as Filebeat.
 
@@ -117,5 +117,5 @@ _TODO: Answer the following questions to fill in the blanks:_
 - _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_
   - Updating the `/etc/ansible/hosts` will make Ansible run the playbook `install-elk.yml` on a specified machine
 - _Which URL do you navigate to in order to check that the ELK server is running?
-  - The ELK server URL is `http://<VM public IP>:5601/app/kiban`
+  - The ELK server URL is `http://<VM public IP>:5601/app/kibana`
 
