@@ -2,13 +2,13 @@
 
 The files in this repository were used to configure the network depicted below.
 
-![Network Diagram](https://github.com/SurajVittala/Cybersecurity_Project1/tree/main/Images/Unit13_N_wDiagram.png)
+![Network Diagram](Unit13_N_wDiagram.png)
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the yml file may be used to install only certain pieces of it, such as Filebeat.
 
-  - _install-elk.yml_
-  - _install-filebeat.yml_
-  - _install-metricbeat.yml_
+- **[install-elk.yml](Scripts/install-elk.yml)**
+- **[filebeat-playbook.yml](Scripts/filebeat-playbook.yml)**
+- **[metricbeat-playbook.yml](Scripts/metricbeat-playbook.yml)**
 
 This document contains the following details:
 
@@ -24,44 +24,55 @@ This document contains the following details:
 
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the D*mn Vulnerable Web Application.
 
-Load balancing ensures that the application will be highly <font color="green"> available </font>, in addition to restricting <font color="green"> access </font> to the network.
-- _TODO: What aspect of security do load balancers protect? What is the advantage of a jump box?_
+Load balancing ensures that the application will be highly *available*, in addition to restricting *access* to the network.
+>- _**Load balancing** is the process of distributing incoming reequests/tasks over a set of resources in order to prevent disproportionate skew of requests load towards one specific server. For example, this can be particularly useful in maintaining availability of services to customers in the setting of a DoS attack on one of the server, rendering it unavailable. If the same services are available on an alternate server, the load balancer can distribute the web traffic to the alternate server when the primary server is 'overloaded' - this way the services (such as sales) continue to remain operational even in the mist of the attack. In addition it can also be configured to limit access to particular servers to prevent penetration by hackers._
 
-Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the _____ and system _____.
-- _TODO: What does Filebeat watch for?_
-- _TODO: What does Metricbeat record?_
+Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the *logs* and *system metrics*.
+>- _**Filebeat** collects data about the file system. It is helpful in detecting changes to certain important files stampd by time like for example if a hacker attemps to change etc/passwd and this information is then sent to Elasticsearch on the ELK Server_
+>- _**Metricbeat** Collects metrics to help with the assessment regarding the operational state of computer machines on the network (VMs in this case) and then sends it to Elasticsearch on ELK Server. For example it can be helpful in determining CPU usage, memory disk I/O, Network I/O and Uptime information_
 
 The configuration details of each machine may be found below.
 _Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
 
 | Name     | Function | IP Address | Operating System |
 |----------|----------|------------|------------------|
-| Jump Box | Gateway  | 10.0.0.1   | Linux            |
-| TODO     |          |            |                  |
-| TODO     |          |            |                  |
-| TODO     |          |            |                  |
+| Jump-Box | Gateway  | 10.0.0.7   | Linux            |
+| Web-1    | Webserver| 10.0.0.8   | Linux            |
+| Web-2    | Webserver| 10.0.0.9   | Linux            |
+| ELK      |Monitoring| 10.1.0.4   | Linux            |
 
 ### Access Policies
 
 The machines on the internal network are not exposed to the public Internet. 
 
-Only the _____ machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
-- _TODO: Add whitelisted IP addresses_
+Only the *Jump-Box* machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
+- _*Source IP = public ip of your laptop*_
+- _*Destination IP = 10.0.0.4*_
+- _*Service = ssh*_
+- _*Action = Allow*_
 
-Machines within the network can only be accessed by _____.
-- _TODO: Which machine did you allow to access your ELK VM? What was its IP address?_
+Machines within the network can only be accessed by *Jump-Box*.
+- _Only the Jump-Box can connect to Web-1, Web-2, ELK and its IP is 10.0.0.7_
 
 A summary of the access policies in place can be found in the table below.
 
-| Name     | Publicly Accessible | Allowed IP Addresses |
-|----------|---------------------|----------------------|
-| Jump Box | Yes/No              | 10.0.0.1 10.0.0.2    |
-|          |                     |                      |
-|          |                     |                      |
+-**RedTeam_NSG**
+| Name                  | Publicly Accessible  | Allowed IP Addresses| Notes         |
+|-----------------------|----------------------|---------------------|---------------|
+| Allow_SSH_from_laptop | Yes                  | azdmin's Public IP  |               |
+| Allow_TCP_to_VN       | Yes, TCP to Web-1,2  | azdmin's Public IP  |               |
+| SSH_from_jumpbox      | No, Via Jump-Box     | 10.0.0.1-254        |               |
+
+-**Elk-server-NSG**
+| Name                  | Publicly Accessible  | Allowed IP Addresses| Notes         |
+|-----------------------|----------------------|---------------------|---------------|
+| elk_tcp_5601          | Yes, TCP to port 5601| azdmin's Public IP  |               |
+| SSH                   | No, via Jump-Box     | 10.0.0.1-254        |               |
+
 
 ### Elk Configuration
 
-Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
+Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because:
 - _TODO: What is the main advantage of automating configuration with Ansible?_
 
 The playbook implements the following tasks:
