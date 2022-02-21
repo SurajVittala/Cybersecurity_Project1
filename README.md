@@ -2,7 +2,7 @@
 
 The files in this repository were used to configure the network depicted below.
 
-![Network Diagram](https://github.com/SurajVittala/Cybersecurity_Project1/tree/main/Images/Unit13_N_w Diagram.drawio.png)
+![Network Diagram](https://github.com/SurajVittala/Cybersecurity_Project1/tree/main/Images/Unit13_N_wDiagram.png)
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the yml file may be used to install only certain pieces of it, such as Filebeat.
 
